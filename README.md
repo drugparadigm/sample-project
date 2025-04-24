@@ -1,4 +1,4 @@
-# sample-project
+# sample-project : Inference in a Dockerized REST API
 ### Instruction to follow
 
 * Install Docker engine.
