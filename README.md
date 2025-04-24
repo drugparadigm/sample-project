@@ -1,4 +1,4 @@
-# sample-project : Inference in a Dockerized REST API
+# From Model to Container: ML/DL Inference as a REST Service
 ### Instruction to follow
 
 * Install Docker engine.
