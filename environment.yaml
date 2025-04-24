@@ -1,0 +1,14 @@
+# Replace with your dgx environment
+
+name: model-host
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.9
+  - numpy=1.24.2
+  - pandas=1.5.3
+  - pip
+  - pip:
+      - tqdm
+      - flask
