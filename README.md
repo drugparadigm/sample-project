@@ -45,6 +45,6 @@ print(resp)
 # Print status, headers and pretty-printed JSON body
 print("Status code:", resp.status_code)
 print("Headers:", resp.headers)
-print("Body:")
-print(json.dumps(resp.json(), indent=2))
+print("Body:",resp.text)
+#print(json.dumps(resp.json(), indent=2)) #uncomment if it is a json response
 ```
