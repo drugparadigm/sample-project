@@ -1,4 +1,4 @@
-# ML/DL Inference as a Dockerized REST Service
+# ML/DL Inference as a Dockerized REST API
 ### Instruction to follow
 
 * Install Docker engine.
