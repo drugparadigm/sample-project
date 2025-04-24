@@ -42,4 +42,9 @@ headers["Content-Length"] = "0"
 
 resp = requests.post(url, headers=headers)
 print(resp)
+# Print status, headers and pretty-printed JSON body
+print("Status code:", resp.status_code)
+print("Headers:", resp.headers)
+print("Body:")
+print(json.dumps(resp.json(), indent=2))
 ```
