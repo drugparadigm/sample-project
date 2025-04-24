@@ -1,4 +1,4 @@
-# From Model to Container: ML/DL Inference as a REST Service
+# ML/DL Inference as a Dockerized REST Service
 ### Instruction to follow
 
 * Install Docker engine.
