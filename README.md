@@ -26,3 +26,20 @@ conda env export > <environment-name>.yml
 ```
     docker run -p 5000:5000 <image-name> 
 ```
+#### Test the /hi endpoint
+* Use Python’s requests library to send an HTTP POST (with an empty JSON body) to your service and print the result:
+```
+import requests
+from requests.structures import CaseInsensitiveDict
+
+url = "http://localhost:5000/hi"
+
+headers = CaseInsensitiveDict()
+headers["Accept"] = "application/json"
+headers["Content-Type"] = "application/json"
+headers["Content-Length"] = "0"
+
+
+resp = requests.post(url, headers=headers)
+print(resp)
+```
