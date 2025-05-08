@@ -1,8 +1,7 @@
 
-from flask import Flask,request, Response
+from flask import Flask,request, Response,jsonify
 import subprocess
-import jsonify
-
+from datetime import datetime
 app = Flask(__name__)
 
 
@@ -34,7 +33,14 @@ def score() -> Response:
 
         raise RuntimeError('Error occured')
 
-
+@app.route('/health/<sample>', methods=['POST'])
+def samplescore(sample) -> Response:
+ 
+    if sample == "hi":
+        date=datetime.now().strftime("%H:%M:%S")
+        return f"Hello {date}"
+    else:
+        return jsonify({'error':"Unauthorized access"})
 
 
 if __name__ == '__main__':
