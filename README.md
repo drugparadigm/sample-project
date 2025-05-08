@@ -35,7 +35,7 @@ conda env export > environment.yml
 import requests
 from requests.structures import CaseInsensitiveDict
 
-url = "http://localhost:5000/hi"
+url = "http://localhost:5000/health/hi"
 
 headers = CaseInsensitiveDict()
 headers["Accept"] = "application/json"
