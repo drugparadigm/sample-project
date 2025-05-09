@@ -9,3 +9,5 @@ set -e
 echo "Installing Flask..."
 pip install flask
 
+echo "Installing Gunicorn..."
+pip install gunicorn
