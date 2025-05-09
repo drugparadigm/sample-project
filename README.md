@@ -51,3 +51,19 @@ print("Headers:", resp.headers)
 print("Body:",resp.text)
 #print(json.dumps(resp.json(), indent=2)) #uncomment if it is a json response
 ```
+#### Test the /score endpoint
+```
+import requests
+ 
+url = "http://localhost:5000/score"
+ 
+data = {
+    <Please provide the required input format for the API request body.>
+}
+ 
+response = requests.post(url, json=data)
+ 
+print(response.text)
+ 
+```
+ 
