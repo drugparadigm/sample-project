@@ -26,7 +26,9 @@ conda env export > environment.yml
 ```
 * Run the image with:
 ```
-    docker run -p 5000:5000 <image-name> 
+    docker run -p 5000:5000 <image-name> (If your PC has no GPU)
+
+    docker run --gpus all -p 5000:5000 <image-name> (If your PC has GPU)
 ```
 
 #### Test the /hi endpoint

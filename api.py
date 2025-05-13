@@ -26,6 +26,12 @@ def score() -> Response:
         
         result = subprocess.run(command, shell=True, capture_output=True, text=True)
 
+        if result.returncode != 0:
+            return jsonify({
+                "message": "Inference failed",
+                "stderr": result.stderr
+            }), 500
+
         return jsonify({"message": "Inference completed successfully", "output": result.stdout}), 200
 
 
@@ -44,4 +50,4 @@ def samplescore(sample) -> Response:
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000,debug=True)
+    app.run(host='0.0.0.0',port=5000,debug=False,use_reloader=False)
