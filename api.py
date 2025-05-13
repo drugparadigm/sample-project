@@ -25,19 +25,18 @@ def score() -> Response:
         command = f'cd src && python3 data.py "{data}"'
         
         result = subprocess.run(command, shell=True, capture_output=True, text=True)
-
+        
         if result.returncode != 0:
             return jsonify({
                 "message": "Inference failed",
                 "stderr": result.stderr
             }), 500
 
+
         return jsonify({"message": "Inference completed successfully", "output": result.stdout}), 200
 
-
-    except KeyError:
-
-        raise RuntimeError('Error occured')
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 @app.route('/health/<sample>', methods=['POST'])
 def samplescore(sample) -> Response:
@@ -50,4 +49,4 @@ def samplescore(sample) -> Response:
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0',port=5000,debug=False,use_reloader=False)
+    app.run(host='0.0.0.0', port=5000,debug=True)
