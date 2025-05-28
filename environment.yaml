@@ -1,6 +1,7 @@
 # Replace with your dgx environment
+# Include only packages that are necessary for inference
 
-name: model-host
+name: env-name
 channels:
   - conda-forge
   - defaults
@@ -11,4 +12,3 @@ dependencies:
   - pip
   - pip:
       - tqdm
-      - flask

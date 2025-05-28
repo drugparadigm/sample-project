@@ -1,10 +1,7 @@
 import sys
+from flask import request
 
 def main():
-
-    
-    data = sys.argv[1]
-    print(data)
-
-if __name__ == "__main__":
-    main()
+    reqId=request.form.get('reqId')
+    print(f"Received request ID: {reqId}")
+    return reqId

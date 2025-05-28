@@ -3,23 +3,45 @@
 
 * Install Docker engine.
 * Add the files/folders required only for inference in src directory
-* Add the files required for input (if any) in src/data/input
-* If in any file you need to access the input files then access them from /data/input
+
+* Use request.form to access inputs from the request
+* Make sure request.form has reqId
+* Dump the request.form in src/data/input with filename as {reqId}-input.json
+* If the request body are files then dump those files in src/data/input with reqId as prefix
+* If in any file you need to access the input files then access them from src/data/input
+
 * Add the model checkpoints in src/checkpoints dir
+* Make sure your checkpoints are saved as torch.save(model.state_dict())
+* If the code downloads any pre-trained models, please let us know.
+
+
 * Generate a yaml file with your conda environment from dgx with the command:
 ```
-conda env export > environment.yml
+conda env export > environment.yaml
 ```
+* Make sure the yaml file contains packages required only for inference
+
 * Add the packages that are hard to install with the installation commands in additional-softwares.sh
-* Rename the filenames and environment names in Dockerfile
-* Rename the inference file name in api.py
-* Change the inference file(that you call in api.py) so that it accepts input from arguments.
-* For now keep your input files in src/data/input directory and in the request json specify the file names.
-  Use these filenames to access the files from data/input in your inference file.
+
+* Rename the filenames and environment names in Dockerfile.
+
+* Rename the function(main) in api.py with your main inference function.
+* The function should get reqId using
+```
+reqId=request.form.get('reqId')
+```
+then access the {reqId}-input.json
+
+* Raise all the possible Exceptions and catch them in api.py
+* Raise the Exceptions so the users should be able to understand the error
+
+* Delete all the files/folders in src/data/input after inference completion.
+* Do not use any nested json in output
 * Run api.py with the above changes:
 ```
-    python api.py
+gunicorn api:app -b 0.0.0.0:5000 --workers=1 --threads=5  --access-logfile -
 ```
+
 * If there are no errors then create a docker image with the command:
 ```
     docker build -t <image-name> .
@@ -56,16 +78,16 @@ print("Body:",resp.text)
 #### Test the /score endpoint
 ```
 import requests
- 
-url = "http://localhost:5000/score"
- 
+
+url = "http://0.0.0.0:5000/score"  
 data = {
-    <Please provide the required input format for the API request body.>
+    <Please provide the required input format for the API request body.Include reqId.>
 }
- 
-response = requests.post(url, json=data)
- 
+
+# Send as multipart/form-data
+response = requests.post(url, data=data)
+
 print(response.text)
- 
+
 ```
  
