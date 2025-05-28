@@ -6,9 +6,15 @@
 
 * Use request.form to access inputs from the request
 * Make sure request.form has reqId
-* Dump the request.form in src/data/input with filename as {reqId}-input.json
-* If the request body are files then dump those files in src/data/input with reqId as prefix
-* If in any file you need to access the input files then access them from src/data/input
+* Save or Dump inputs in src/data/input with filename as {reqId}-input.json
+* If the request body are files then dump those files in src/data/input with reqId as prefix along with filebane
+* If you need to access the input files(i.e. in the code file) then retrieve them from src/data/input
+* To access other inputs in main function, get reqId using:
+```
+reqId=request.form.get('reqId')
+```
+then access via {reqId}-input.json
+
 
 * Add the model checkpoints in src/checkpoints dir
 * Make sure your checkpoints are saved as torch.save(model.state_dict())
@@ -26,17 +32,13 @@ conda env export > environment.yaml
 * Rename the filenames and environment names in Dockerfile.
 
 * Rename the function(main) in api.py with your main inference function.
-* The function should get reqId using
-```
-reqId=request.form.get('reqId')
-```
-then access the {reqId}-input.json
+
 
 * Raise all the possible Exceptions and catch them in api.py
-* Raise the Exceptions so the users should be able to understand the error
+* Raise the Exceptions so the users should be able to understand the error and rectify it 
 
-* Delete all the files/folders in src/data/input after inference completion.
-* Do not use any nested json in output
+* Make sure to rename the files/folders in api.py whereever required.
+* Do not have any nested json as output
 * Run api.py with the above changes:
 ```
 gunicorn api:app -b 0.0.0.0:5000 --workers=1 --threads=5  --access-logfile -
