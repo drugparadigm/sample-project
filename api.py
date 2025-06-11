@@ -9,12 +9,14 @@ import shutil
 from src.data import main  # Replace with your inference function 
 app = Flask(__name__)
 
-
+UPLOAD_FOLDER = 'src/data/input'  # Folder where files will be uploaded
 @app.route('/score', methods=['POST'])
 def score() -> Response:
     reqId=None
 
     try:
+
+        ## If your inputs are not files
 
         data = request.form
 
@@ -24,17 +26,43 @@ def score() -> Response:
         if missing_fields:
             raise ValueError(f"Missing fields in form data: {', '.join(missing_fields)}")
         
-        reqId = request.form['reqId']
+        reqId = request.form.get('reqId')
         
         with open(f"src/data/input/{reqId}-input.json", "w") as f:
             json.dump(data, f)
+
+        ## If your inputs also includes files, you can use the below code
+
+        data = request.files
+        if 'reqId' not in request.form:
+            raise ValueError ("Missing reqId in form data")
+
+        reqId = request.form.get('reqId')
+
+        values=['file1', 'file2', 'file3']  # Replace with your actual file names
+        for value in values:
+            if value not in data:
+                raise ValueError (f"Missing {value} in form data")
         
-        # Replace with your actual inference function call and import function
-        # For example, if you have a function named `main` in your inference file and main() returns the result of the inference:
+        # Create a json object to store file names to access the files for inference
+        json_data = {}
+        file_paths = []
+        for value in values:
+            file = request.files[value]
+            if file: 
+                json_data[value] = reqId+'_'+file.filename
+                file_path = os.path.join(UPLOAD_FOLDER, reqId+'_'+file.filename)
+                file_paths.append(file_path)
+                file.save(file_path)
+            else:
+                raise ValueError (f"Missing {value} in form data")
+            
+        with open(f"src/data/input/{reqId}_input.json", "w") as f:
+            json.dump(json_data, f)
+
         result=main() 
 
         return jsonify({"message": "Inference completed successfully", "output": result}), 200
-
 
     except ValueError as e:
         traceback.print_exc()
