@@ -69,15 +69,19 @@ def score() -> Response:
         return jsonify({"message":"Inference failed","error": f"{e}"}), 500
     
     finally:
-        paths=[f'{reqId}-input.json','folder1', 'folder2']  # Add the files/folders created during the inference in src/data/input
-        for path in paths:
-            path = os.path.join('src/data/input', path)
-            if os.path.exists(path):
-                if os.path.isfile(path):
-                    os.remove(path)
+        if len(os.listdir(UPLOAD_FOLDER)) > 0:
+            for file in os.listdir(UPLOAD_FOLDER):
+                if os.path.isfile(os.path.join(UPLOAD_FOLDER, file)):
+                    if file.startswith(reqId+'_'):
+                        file_path = os.path.join(UPLOAD_FOLDER, file)
+                        if os.path.exists(file_path):
+                            os.remove(file_path)
                 else:
-                    shutil.rmtree(path)
-            
+                    if file.startswith(reqId+'_'):
+                        dir_path = os.path.join(UPLOAD_FOLDER, file)
+                        if os.path.exists(dir_path):
+                            shutil.rmtree(dir_path)
+                            
 
 @app.route('/health/<sample>', methods=['POST'])
 def samplescore(sample) -> Response:
