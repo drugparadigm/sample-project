@@ -83,7 +83,7 @@ def score() -> Response:
                             shutil.rmtree(dir_path)
                             
 
-@app.route('/health/<sample>', methods=['POST'])
+@app.route('/health/<sample>', methods=['GET'])
 def samplescore(sample) -> Response:
  
     if sample == "hi":
